@@ -1,0 +1,5 @@
+---
+# vars file for webserver
+
+documentroot: "/var/www/webapp"
+httpport: 81

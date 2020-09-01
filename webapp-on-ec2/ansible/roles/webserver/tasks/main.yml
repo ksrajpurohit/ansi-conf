@@ -1,0 +1,31 @@
+---
+# tasks file for webserver
+- name: install httpd
+  package:
+    name: "httpd"
+    state: present
+  register: httpdstatus
+
+- name: document root directory
+  file:
+    state: directory
+    dest: "{{ documentroot }}"
+  register: rootdirstatus
+
+- name: configure web server
+  template:
+    dest: /etc/httpd/conf.d/web.conf
+    src: templates/localconf.conf.j2
+  when: httpdstatus.rc == 0
+  notify: httpd service restart
+
+- name: copy webpage from url
+  get_url:
+    dest: "{{ documentroot }}"
+    url: "https://raw.githubusercontent.com/krrajpurohit/test/master/index.html"
+  when: rootdirstatus.failed == false
+
+- name: httpd service start
+  service:
+    name: "httpd"
+    state: started

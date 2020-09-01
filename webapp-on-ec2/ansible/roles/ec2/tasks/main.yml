@@ -1,0 +1,19 @@
+---
+# tasks file for ec2
+- name: provision ec2 on aws
+  ec2:
+    key_name: "{{ ec2key }}"
+    instance_type: "{{ instance_type }}"
+    image: "{{ ami_id }}"
+    wait: yes
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    instance_tags:
+      Name: "{{ tag_name }}"
+    exact_count: "{{ count }}"
+    count_tag:
+      Name: "{{ tag_name }}"
+    assign_public_ip: yes
+    region: "{{ region }}"
+    group_id: "{{ security_group_id }}"
+    aws_access_key: "{{ accesskey }}"
+    aws_secret_key: "{{ secretkey }}"
