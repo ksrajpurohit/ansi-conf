@@ -1,0 +1,60 @@
+- hosts: dockerhost
+  tasks:
+  - name: Configure yum
+    yum_repository:
+      name: "docker_repo"
+      description: Yum repo for docker
+      baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+      gpgcheck: 0
+
+  - name: Install Docker
+    package:
+      name : "docker-ce-18.06.3.ce-3.el7.x86_64"
+      state: present
+
+  - name: Install Python
+    package:
+      name: "python3"
+      state: present
+
+  - name: Install Docker sdk for python
+    pip:
+      name: docker
+
+  - name: Start Docker service
+    service: 
+      name: "docker"
+      state: started
+
+  - name: Pull httpd docker image
+    docker_image:
+      name: httpd
+      tag: latest
+      source: pull
+
+  - name: webpage directory
+    file:
+      state: directory
+      dest: "/root/webpage"
+
+  - name: Copy website to the host
+    template:
+      src: ./index.html
+      dest: /root/webpage/index.html
+
+  - name: Run docker container
+    docker_container:
+      name: WebServer
+      image: httpd:latest
+      state: started
+      exposed_ports:
+      - "80"
+      ports:
+      - "80:80"
+      volumes:
+      - /root/webpage/:/usr/local/apache2/htdocs/
+
+
+
+
+

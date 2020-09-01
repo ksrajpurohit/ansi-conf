@@ -1,0 +1,2 @@
+[dockerhost]
+192.168.43.199 ansible_ssh_user=root ansible_ssh_pass=root
