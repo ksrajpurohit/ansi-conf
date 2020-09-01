@@ -1,0 +1,14 @@
+---
+# vars file for ec2
+ec2Key: "ec2key"
+instance_type: "t2.micro"
+ami_id: "ami-0ebc1ac48dfd14136"
+vpc_subnet_id: "subnet-4279562a"
+tag_name: "none"
+count: 1
+region: "ap-south-1"
+security_group_id: "sg-0320ad848fa1c7fe3"
+accesskey: "none"
+secretkey: "none"
+
+
